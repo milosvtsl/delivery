@@ -6,7 +6,7 @@ require_once 'core/init.php';
 <!doctype html>
 <html>
 <head>
-<base href="/linked/">
+<base href="/">
 <meta charset="utf-8">
 <title>DELIVERY METHODS</title>
 <link rel="stylesheet" type="text/css" href="css.css">
@@ -34,7 +34,7 @@ require_once 'core/init.php';
 
     
    <div id="footer">
-   	Copyright &copy; 
+   	Copyright &copy milosvtsl; 
 	</div>
       <a href="#top"><div id="point"><i class="fa fa-hand-pointer-o fa-2x"></i></div></a>
 </div> <!--kraj wrap -->
