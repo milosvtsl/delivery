@@ -6,7 +6,7 @@ require_once 'core/init.php';
 <!doctype html>
 <html>
 <head>
-<base href="/linked/">
+<base href="/">
 <meta charset="utf-8">
 <title>DELIVERY METHODS</title>
 <link rel="stylesheet" type="text/css" href="css.css">
@@ -16,12 +16,13 @@ require_once 'core/init.php';
 
 </head>
 <script>
-$(document).ready(function(){
-	 
+
+	$(document).ready(function(){
+/* slide div with show ranges data : */
 	 $("#show,#add_ranges").click(function(){
 		$("#input_range").slideToggle("slow").html();
 	 });
-	 
+/* slide div with delivery data :   */ 
 	 $("#click").click(function(){
 		$("#for_hidden").slideToggle("slow").html();
 	 });
@@ -44,9 +45,10 @@ $(document).ready(function(){
  
  </ul>
  </div>
-
- 
  </header><!--kraj header-->
+ 
+ <!-- pocetak glavne forme za delivery -->
+ 
  	<form action="index.php" method="GET">
  <div id="front">
  
@@ -66,8 +68,9 @@ $(document).ready(function(){
  </div>
  
  <?php
- 
+ // kod koji regulise hidden content:
  if(isset($_GET["new"]) or isset($_GET["drop"])){
+//upotreba session kako bi se regulisao stalni prikaz delivery data u postupu unosa podataka sa Add new:
 @$_SESSION["new"]=$_GET["new"];
  @$_SESSION["drop"]=$_GET["drop"];
  }else{session_destroy();}
@@ -88,23 +91,26 @@ $(document).ready(function(){
 			</form>";
  }
  if(isset($_GET["new"])){
-// $from = preg_replace("/[^0-9]/", "just nubers",$_GET["from"]);
+//provera input data da bude numeric:
 if(is_numeric($_GET["from"])==true and is_numeric($_GET["to"])==true and is_numeric($_GET["price"])==true){
+	
+// kreiranje objekta $insert i instanciranje metode insert iz class Entity (glavna klasa):
 
 	$insert = new Content;
 	$insert->price_from=$_GET["from"];
 	$insert->price_to=$_GET["to"];
 	$insert->price=$_GET["price"];
 	$insert->insert();
-	header("Location:/linked");
+	header("Location:/");
 }else{
 	echo"just numbers!";
 }
 
  }
  if(isset($_GET["drop"])){
+//instanciranje metode remove iz class Entity (glavna klasa):
 	Content::remove($_GET["mark"]);
-	 header("Location:/linked");
+	 header("Location:/");
  }
 	echo "</div>";//end of class row
  ?>
@@ -112,6 +118,8 @@ if(is_numeric($_GET["from"])==true and is_numeric($_GET["to"])==true and is_nume
   <div class="row" id="showit">
  <p>Delivery Method 3</p>
 			<?php
+//prikaz last delivery form database:
+//instanciranje metode getLast iz class Entity (glavna klasa):
 			$last = Content::getLast();
 			?>
 <input type="text" name="method0" placeholder="<?php echo $last->price;?>" >$
@@ -120,11 +128,14 @@ if(is_numeric($_GET["from"])==true and is_numeric($_GET["to"])==true and is_nume
 <div class="button_blue" id="click"> Show Opttions </div>
 
  </div>
+ <!-- div za delivery data: -->
  <?php
+ //pritiskom dugmeta Save ponovo menja css za hidden:
  if(isset($_GET["save"])){
 	  echo "<div class='row' style='display:inline_block' id='for_hidden' >";
  }else{echo "<div class='row' style='display:none' id='for_hidden'>";}
 ?>
+
 			<p>Delivery URL</p>
 		
 			<input type="text" name="method3_sredina" placeholder="<?php echo $last->delivery_url;?>" >
@@ -141,7 +152,7 @@ if(is_numeric($_GET["from"])==true and is_numeric($_GET["to"])==true and is_nume
 			<input type="text" name="notes" placeholder="<?php echo $last->notes;?>" >
 		
 			</div>
- 
+ <!-- kraj div.a za delivery data -->
   <div class="row">
  <p>Delivery Method 4</p>
 <div id="show">Show Ranges</div>
@@ -154,16 +165,20 @@ if(is_numeric($_GET["from"])==true and is_numeric($_GET["to"])==true and is_nume
    <input type="submit" class="button_gray" name="save" value="Save Form">
 </form> <!--end of save Form -->
 <?php
+//koda za update delivery data:
+
 if(isset($_GET["save"])){
 	
 	if(isset($_GET["method3_sredina"])and isset($_GET["notes"])){
 		if($_GET["method3_sredina"]!= "" and $_GET["notes"]!=""){
+//instanciranje metode update class iz Entity (glavna klasa):
 		Content::update($last->id,array('delivery_url'=>trim($_GET["method3_sredina"]),'notes'=>trim($_GET["notes"])));
 		}
 	}
 	if(isset($_GET["from_3"]) and isset($_GET["to_3"])){
 		if(is_numeric($_GET["from_3"])==true and is_numeric($_GET["to_3"])==true){
 				$params = array('from_kg'=>$_GET["from_3"],'to_kg'=>$_GET["to_3"]);
+
 				Content::update($last->id,$params);
 		}else if(is_numeric($_GET["from_3"])==null and is_numeric($_GET["to_3"])==null){
 			echo "ok";
@@ -173,7 +188,7 @@ if(isset($_GET["save"])){
 		}
 	}
 
-	header("Location:/linked");
+	header("Location:/");
 }
 	
 
@@ -182,7 +197,7 @@ if(isset($_GET["save"])){
 	</div>
     
    <div id="footer">
-   	Copyright &copy; 
+   	Copyright &copy; milosvtsl
 	</div>
       <a href="#top"><div id="point"><i class="fa fa-hand-pointer-o fa-2x"></i></div></a>
 </div> <!--kraj wrap -->

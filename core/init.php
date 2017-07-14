@@ -2,13 +2,13 @@
 session_start();
 $GLOBALS['config'] = array(
 	'DB' => array(
-		'host' => '127.0.0.1',
+		'host' => 'localhost',
 		'user' => 'root',
 		'password' => '',
 		'db_name' => 'linked'
 	),
 	'status' => true,
-	'app_dir' => 'C:/wamp/www/sajt/linked/',
+	'app_dir' => '/',
 	'session' => array()
 );
 
